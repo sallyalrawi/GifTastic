@@ -4,10 +4,7 @@
     <meta charset="utf-8" />
     <title>Gif Tastic</title>
     <style type="text/css">
-      button,
-      div,
-      form,
-      input {
+     button,div,form,input {
         margin: 10px;
       }
     </style>
@@ -22,16 +19,18 @@
         <input type="text" id="animal-input">
         <br>
   
-        <!-- Button triggers new movie to be added -->
+        <!-- Button triggers new animal gif to be added -->
         <input id="add-animal" type="submit" value="search">
       </form>
-
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
+
       var topics = ["cats","dogs","rabbit","hamster","turtle","chicken","frog","caw","Eagle"];
 
       // Function for displaying the topics data
       function renderButtons() {
+          
         // Deletes the gifs prior to adding new gifs
 
         $("#buttons-view").empty();
