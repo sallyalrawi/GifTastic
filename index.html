@@ -27,19 +27,17 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
+
       var topics = ["cats","dogs","rabbits","hamstes","turtles","chickens","frogs","cows","Eagles"];
 
+      // The on click event
       $("body").on("click", ".gifs", function() {
         var topic = $(this).attr("data-name");
-        var queryURL =
-          "https://api.giphy.com/v1/gifs/search?q=" +
-          topic +
-          "&api_key=guWBZNSN3lsj3U7AYSbu6vvGu3L5W2It&limit=10";
+        var queryURL ="https://api.giphy.com/v1/gifs/search?q=" + topic +"&api_key=guWBZNSN3lsj3U7AYSbu6vvGu3L5W2It&limit=10";
 
         console.log(queryURL);
 
         // Performing an AJAX request with the queryURL
-
         $.ajax({ url: queryURL, method: "GET" })
           // After data comes back from the request
           .then(function(response) {
@@ -47,8 +45,10 @@
 
             // storing the data from the AJAX request in the results variable
             var results = response.data;
+
             // Looping through each result item
             for (var i = 0; i < results.length; i++) {
+
               // Creating and storing a div tag
               var animalDiv = $("<div>");
 
@@ -57,8 +57,16 @@
 
               // Creating and storing an image tag
               var animalImage = $("<img>");
+
               // Setting the src attribute of the image to a property pulled off the result item
-              animalImage.attr("src", results[i].images.fixed_height.url);
+                var still = results[i].images.fixed_height_still.url;
+                var animate = results[i].images.fixed_height.url;
+                
+                animalImage.attr("src", results[i].images.fixed_height.url);
+                animalImage.addClass("gif-pick");
+                animalImage.attr("data-state","still");
+                animalImage.attr("data-animate",still);
+                animalImage.attr("data-still",animate);
 
               // Appending the paragraph and image tag to the animalDiv
               animalDiv.append(p);
@@ -71,8 +79,8 @@
       });
 
       // Function for displaying the topics data
-      function renderButtons() {
-        // Deletes the gifs prior to adding new gifs
+        function renderButtons() {
+      // Deletes the gifs prior to adding new gifs
 
         $("#buttons-view").empty();
 
@@ -95,17 +103,17 @@
         event.preventDefault();
 
         // This line will grab the text from the input box
-        var animal = $("#animal-input")
-          .val()
-          .trim();
+        var animal = $("#animal-input").val().trim();
         // The input from the textbox is then added to our array
         topics.push(animal);
 
         // calling renderButtons which handles the processing of our animal array
         renderButtons();
       });
-
-      $(".gifs").on("click", function() {
+    //  The on click event to generate if when clicking will change the state of the gifs
+      $(document).on("click",".gif-pick", function() {
+      
+        console.log(this);
         // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
         var state = $(this).attr("data-state");
         // If the clicked image's state is still, update its src attribute to what its data-animate value is.
